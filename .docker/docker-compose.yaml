@@ -1,0 +1,8 @@
+services:
+  app:
+    container_name: layered-pricing-app
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    volumes:
+      - ../:/var/www
