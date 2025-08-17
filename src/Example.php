@@ -8,9 +8,4 @@ class Example
     {
         return 'Hello';
     }
-
-    public function sayHelloWorld(): string
-    {
-        return 'Hello world';
-    }
 }
