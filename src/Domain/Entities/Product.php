@@ -10,7 +10,7 @@ class Product
 {
     private function __construct(
         private ProductId $id,
-        public string $name,
+        private string $name,
     ) {}
 
     public static function create($name): self
@@ -32,5 +32,10 @@ class Product
     public function getId(): string
     {
         return $this->id->getValue();
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 }

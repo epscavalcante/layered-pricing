@@ -33,7 +33,7 @@ test('Deve falhar ao criar uma que ja existe uma layer', function () {
         code: 'EXISTS',
     );
     $input = new CreateSimpleLayerInput(
-        code: $layer->code,
+        code: $layer->getCode(),
     );
 
     $layerFakeRepository = Mockery::mock(LayerRepository::class);

@@ -9,6 +9,8 @@ use Src\Domain\ValueObjects\LayerId;
 
 interface LayerRepository
 {
+    public function findById(LayerId $layerId): ?Layer;
+
     public function findByCode(string $code): ?Layer;
 
     public function save(Layer $layer): void;
