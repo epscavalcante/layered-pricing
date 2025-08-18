@@ -10,7 +10,7 @@ class Layer
 {
     private function __construct(
         private LayerId $id,
-        public string $code,
+        private string $code,
     ) {}
 
     public static function create(string $code)
@@ -32,5 +32,10 @@ class Layer
     public function getId(): string
     {
         return $this->id->getValue();
+    }
+
+    public function getCode(): string
+    {
+        return $this->code;
     }
 }

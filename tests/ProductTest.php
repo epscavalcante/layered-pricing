@@ -7,7 +7,7 @@ test('Deve criar um produto', function () {
     $product = Product::create('Product');
     expect($product)->toBeInstanceOf(Product::class);
     expect($product->getId())->ToBeString();
-    expect($product->name)->ToBe('Product');
+    expect($product->getName())->ToBe('Product');
 });
 
 
@@ -17,6 +17,6 @@ test('Deve restaurar um produto', function () {
     $product = Product::restore($productId->getValue(), 'Product');
     expect($product)->toBeInstanceOf(Product::class);
     expect($product->getId())->ToBe($productId->getValue());
-    expect($product->name)->ToBe('Product');
+    expect($product->getName())->ToBe('Product');
 });
 

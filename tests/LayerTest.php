@@ -7,7 +7,7 @@ test('Deve criar uma layer', function () {
     $layer = Layer::create('layer');
     expect($layer)->toBeInstanceOf(layer::class);
     expect($layer->getId())->ToBeString();
-    expect($layer->code)->ToBe('layer');
+    expect($layer->getCode())->ToBe('layer');
 });
 
 test('Deve restaurar uma layer', function () {
@@ -16,6 +16,6 @@ test('Deve restaurar uma layer', function () {
     $layer = Layer::restore($layerId->getValue(), 'layer');
     expect($layer)->toBeInstanceOf(layer::class);
     expect($layer->getId())->ToBe($layerId->getValue());
-    expect($layer->code)->ToBe('layer');
+    expect($layer->getCode())->ToBe('layer');
 });
 
