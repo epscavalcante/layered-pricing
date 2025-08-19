@@ -68,19 +68,13 @@ class Layer
         return $this->type->value;
     }
 
-    public function getDiscountType(): string
+    public function getDiscountType(): ?string
     {
-        if (is_null($this->discountRule)) {
-            throw new Exception('Discount rule unavailable');
-        }
-        return $this->discountRule->getType()->value;
+        return $this->discountRule?->getType()?->value;
     }
 
-    public function getDiscountValue(): int
+    public function getDiscountValue(): ?int
     {
-        if (is_null($this->discountRule)) {
-            throw new Exception('Discount rule unavailable');
-        }
-        return $this->discountRule->getValue();
+        return $this->discountRule?->getValue();
     }
 }

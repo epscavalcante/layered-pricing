@@ -11,6 +11,8 @@ test('Deve criar uma layer normal', function () {
     expect($layer->getId())->ToBeString();
     expect($layer->getCode())->ToBe('layer');
     expect($layer->getType())->ToBe(LayerType::NORMAL->value);
+    expect($layer->getDiscountType())->toBeNull();
+    expect($layer->getDiscountValue())->toBeNull();
 });
 
 test('Deve restaurar uma layer normal', function () {
