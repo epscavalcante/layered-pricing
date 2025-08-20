@@ -1,23 +1,27 @@
 <?php
 
 use Src\Domain\Entities\Layer;
-use Src\Domain\Entities\Product;
 use Src\Domain\Enums\DiscountType;
 use Src\Domain\Enums\LayerType;
 use Src\Domain\ValueObjects\LayerId;
-use Src\Domain\ValueObjects\ProductId;
+use Src\Infrastructure\Database\SqliteDatabaseConnection;
 use Src\Infrastructure\Repositories\LayerDatabaseRepository;
-use Src\Infrastructure\Repositories\ProductDatabaseRepository;
+
+beforeEach(function () {
+    $sqliteConnection = new SqliteDatabaseConnection;
+
+    /** @var ProductRepository */
+    $this->repository = new LayerDatabaseRepository(
+        databaseConnection: $sqliteConnection->getConnection()
+    );
+});
 
 test('Deve salvar uma layer normal', function () {
     $layer = Layer::create(
         code: uniqid('LAYER_', true),
     );
-
-    $repository = new LayerDatabaseRepository;
-    $repository->save($layer);
-
-    $layerExists = $repository->findById(LayerId::restore($layer->getId()));
+    $this->repository->save($layer);
+    $layerExists = $this->repository->findById(LayerId::restore($layer->getId()));
     expect($layerExists)->toBeInstanceOf(Layer::class);
     expect($layerExists->getId())->toBe($layer->getId());
     expect($layerExists->getType())->toBe(LayerType::NORMAL->value);
@@ -38,11 +42,10 @@ test('Deve salvar uma layer de desconto percentual', function () {
         discountValue: 17,
     );
 
-    $repository = new LayerDatabaseRepository;
-    $repository->save($base);
-    $repository->save($percentageDiscount);
+    $this->repository->save($base);
+    $this->repository->save($percentageDiscount);
 
-    $percentageDiscountLayerExists = $repository->findById(LayerId::restore($percentageDiscount->getId()));
+    $percentageDiscountLayerExists = $this->repository->findById(LayerId::restore($percentageDiscount->getId()));
     expect($percentageDiscountLayerExists)->toBeInstanceOf(Layer::class);
     expect($percentageDiscountLayerExists->getId())->toBe($percentageDiscount->getId());
     expect($percentageDiscountLayerExists->getType())->toBe(LayerType::DISCOUNT->value);
@@ -64,11 +67,10 @@ test('Deve salvar uma layer de desconto fixo', function () {
         discountValue: 5,
     );
 
-    $repository = new LayerDatabaseRepository;
-    $repository->save($base);
-    $repository->save($percentageDiscount);
+    $this->repository->save($base);
+    $this->repository->save($percentageDiscount);
 
-    $percentageDiscountLayerExists = $repository->findById(LayerId::restore($percentageDiscount->getId()));
+    $percentageDiscountLayerExists = $this->repository->findById(LayerId::restore($percentageDiscount->getId()));
     expect($percentageDiscountLayerExists)->toBeInstanceOf(Layer::class);
     expect($percentageDiscountLayerExists->getId())->toBe($percentageDiscount->getId());
     expect($percentageDiscountLayerExists->getType())->toBe(LayerType::DISCOUNT->value);
@@ -82,10 +84,9 @@ test('Deve encontar uma layer pelo ID', function () {
     $layer = Layer::create(
         code: uniqid('LAYER_'),
     );
-    $repository = new LayerDatabaseRepository;
-    $repository->save($layer);
+    $this->repository->save($layer);
 
-    $layerFound = $repository->findById(LayerId::restore($layer->getId()));
+    $layerFound = $this->repository->findById(LayerId::restore($layer->getId()));
     expect($layerFound)->toBeInstanceOf(Layer::class);
 });
 
@@ -93,10 +94,9 @@ test('Deve encontar uma layer pelo Code', function () {
     $layer = Layer::create(
         code: uniqid('LAYER_'),
     );
-    $repository = new LayerDatabaseRepository;
-    $repository->save($layer);
+    $this->repository->save($layer);
 
-    $layerFound = $repository->findByCode(($layer->getCode()));
+    $layerFound = $this->repository->findByCode(($layer->getCode()));
     expect($layerFound)->toBeInstanceOf(Layer::class);
 });
 
@@ -104,27 +104,23 @@ test('Deve encontar uma layer pelo ID e Type', function () {
     $layer = Layer::create(
         code: uniqid('LAYER_'),
     );
-    $repository = new LayerDatabaseRepository;
-    $repository->save($layer);
+    $this->repository->save($layer);
 
-    $layerFound = $repository->findByIdAndType(LayerId::restore($layer->getId()), LayerType::tryFrom($layer->getType()));
+    $layerFound = $this->repository->findByIdAndType(LayerId::restore($layer->getId()), LayerType::tryFrom($layer->getType()));
     expect($layerFound)->toBeInstanceOf(Layer::class);
 });
 
 test('Deve retornar null ao não encontar uma layer pelo ID', function () {
-    $repository = new LayerDatabaseRepository;
-    $layerNotFound = $repository->findById(LayerId::create());
+    $layerNotFound = $this->repository->findById(LayerId::create());
     expect($layerNotFound)->toBeNull();
 });
 
 test('Deve retornar null ao não encontar uma layer pelo Code', function () {
-    $repository = new LayerDatabaseRepository;
-    $layerNotFound = $repository->findByCode('FAKE_CODE');
+    $layerNotFound = $this->repository->findByCode('FAKE_CODE');
     expect($layerNotFound)->toBeNull();
 });
 
 test('Deve retornar null ao não encontar uma layer pelo Id e pelo Type', function () {
-    $repository = new LayerDatabaseRepository;
-    $layerNotFound = $repository->findByIdAndType(LayerId::create(), LayerType::NORMAL);
+    $layerNotFound = $this->repository->findByIdAndType(LayerId::create(), LayerType::NORMAL);
     expect($layerNotFound)->toBeNull();
 });
