@@ -17,7 +17,7 @@ interface PriceRepository
      * @param ProductId[] $productIds
      * @return Price[]
      */
-    public function findByLayerIdAndProductIds(LayerId $layerId, ?array $productIds = []): array;
+    public function findByLayerIdAndProductIds(LayerId $layerId, array $productIds): array;
 
     /**
      * @param LayerId $layerId

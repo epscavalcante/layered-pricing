@@ -50,12 +50,16 @@ class Layer
         );
     }
 
-    public static function restore(string $id, string $type, string $code)
+    public static function restore(string $id, string $type, string $code, ?string $parentId = null, ?string $discountType = null, ?int $discountValue = null)
     {
+        $parentId = $parentId ? LayerId::restore($parentId) : null;
+        $discountRule = $discountType && $discountValue ? DiscountRuleFactory::create($discountType, $discountValue) : null;
         return new self(
             id: LayerId::restore($id),
             type: Type::tryFrom($type),
             code: $code,
+            parentId: $parentId,
+            discountRule: $discountRule
         );
     }
 
