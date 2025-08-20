@@ -13,6 +13,7 @@ test('Deve criar uma layer normal', function () {
     expect($layer->getType())->ToBe(LayerType::NORMAL->value);
     expect($layer->getDiscountType())->toBeNull();
     expect($layer->getDiscountValue())->toBeNull();
+    expect($layer->isDiscount())->toBeFalsy();
 });
 
 test('Deve restaurar uma layer normal', function () {
