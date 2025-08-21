@@ -1,75 +1,25 @@
 name: CI/CD
 
-on: 
+on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-    name: 'Build'
+    name: "Build"
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
     steps:
-      # 1. Checkout do código
-      - uses: actions/checkout@v3
-
-      # 2. Setup PHP com extensões necessárias
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
-          php-version: '8.4'
-          extensions: pdo_mysql, mbstring
+          php-version: "8.4"
 
-      # 3. Instala dependências
+      - uses: actions/checkout@v3
+
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      # 4. Espera pelo MySQL estar pronto
-      - name: Wait for MySQL
-        run: |
-          for i in {30..0}; do
-            if mysql -h 127.0.01 -P 3306 -uroot -proot -e 'SELECT 1'; then
-              echo "MySQL is up"
-              break
-            fi
-            echo "Waiting for MySQL..."
-            sleep 2
-          done
-
-      # 5. Inicializa o banco (migrations ou SQL)
-      - name: Run Migrations
-        env:
-          DB_HOST: 127.0.01
-          DB_PORT: 3306
-          DB_DATABASE: app
-          DB_USERNAME: root
-          DB_PASSWORD: root
-        run: |
-          composer migrations status
-          composer migrations migrate --no-interaction
-
-      # 6. Executa testes de unidade e integração
       - name: Run Tests
-        env:
-          DB_HOST: 127.0.01
-          DB_PORT: 3306
-          DB_NAME: app
-          DB_USER: root
-          DB_PASS: root
         run: composer test
 
-      # 7. Valida cobertura mínima
-      - name: Validate Coverage
+      - name: Validate coverage
         run: composer test:coverage -- --min=80

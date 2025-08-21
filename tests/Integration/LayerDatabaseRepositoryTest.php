@@ -4,11 +4,11 @@ use Src\Domain\Entities\Layer;
 use Src\Domain\Enums\DiscountType;
 use Src\Domain\Enums\LayerType;
 use Src\Domain\ValueObjects\LayerId;
-use Src\Infrastructure\Database\MySqlDatabaseConnection;
+use Src\Infrastructure\Database\SqliteDatabaseConnection;
 use Src\Infrastructure\Repositories\LayerDatabaseRepository;
 
 beforeEach(function () {
-    $databaseConnection = new MySqlDatabaseConnection;
+    $databaseConnection = new SqliteDatabaseConnection;
 
     /** @var ProductRepository */
     $this->repository = new LayerDatabaseRepository(

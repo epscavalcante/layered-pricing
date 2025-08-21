@@ -3,11 +3,11 @@
 use Src\Domain\Entities\Product;
 use Src\Domain\Repositories\ProductRepository;
 use Src\Domain\ValueObjects\ProductId;
-use Src\Infrastructure\Database\MySqlDatabaseConnection;
+use Src\Infrastructure\Database\SqliteDatabaseConnection;
 use Src\Infrastructure\Repositories\ProductDatabaseRepository;
 
 beforeEach(function () {
-    $databaseConnection = new MySqlDatabaseConnection;
+    $databaseConnection = new SqliteDatabaseConnection;
     /** @var ProductRepository */
     $this->repository = new ProductDatabaseRepository(
         databaseConnection: $databaseConnection->getConnection()

@@ -11,8 +11,6 @@ class Config
     public static function load(string $basePath): void
     {
         $envFile = $basePath . '/.env';
-
-        // Se o arquivo existe, carrega com Dotenv
         if (file_exists($envFile)) {
             $dotenv = Dotenv::createImmutable($basePath);
             $dotenv->load();
@@ -23,7 +21,6 @@ class Config
 
     public static function get(string $key, mixed $default = null): mixed
     {
-        dd(self::$config);
         return self::$config[$key] ?? $default;
     }
 }

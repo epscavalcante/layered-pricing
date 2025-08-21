@@ -35,7 +35,7 @@
     },
     "scripts": {
         "test": "./vendor/bin/pest",
-        "test:coverage": "./vendor/bin/pest --coverage",
+        "test:coverage": "@test --coverage",
         "migrations": "./vendor/bin/phinx"
     }
 }

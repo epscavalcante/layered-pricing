@@ -17,7 +17,7 @@ class SqliteDatabaseConnection implements DatabaseConnection
 
     private function connect(): void
     {
-        $host = Config::get('DB_HOST');
+        $host = Config::get('DB_HOST', ':memory:'); // Default to in-memory SQLite database
         try {
             $this->connection = new PDO(
                 dsn: "sqlite:{$host}",
