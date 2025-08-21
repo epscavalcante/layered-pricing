@@ -42,7 +42,7 @@ jobs:
 
       - name: Run Migrations
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_PORT: 3306
           DB_DATABASE: app
           DB_USERNAME: root
@@ -52,7 +52,7 @@ jobs:
 
       - name: Run Tests
         env:
-          DB_HOST: 127.0.0.1
+          DB_HOST: mysql
           DB_PORT: 3306
           DB_NAME: app
           DB_USER: root
