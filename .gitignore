@@ -1,2 +1,4 @@
 /vendor
-/.docker/dbdata
+/.docker/data
+/database.sqlite
+/.env

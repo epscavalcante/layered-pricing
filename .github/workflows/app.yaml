@@ -1,21 +1,33 @@
 name: CI/CD
 
-on: 
+on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-    name: 'Build'
+    name: "Build"
     runs-on: ubuntu-latest
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
-      with:
-        php-version: '8.4'
-    - uses: actions/checkout@v3
-    - name: Install Dependencies
-      run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-    - name: Run Tests
-      run: composer test
-    - name: Validate coverage
-      run: composer test:coverage -- --min=80
+      - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+        with:
+          php-version: "8.4"
+
+      - uses: actions/checkout@v3
+
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Create .env
+        run: |
+          cat > .env <<EOL
+          APP_ENV=testing
+          DB_CONNECTION=sqlite
+          DB_HOST=database.sqlite
+          EOL
+
+      - name: Runs Testing Migrations
+        run: composer migrations -- migrate -e testing
+
+      - name: Run Tests and Validate coverage
+        run: composer test:coverage -- --min=80

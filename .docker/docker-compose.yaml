@@ -6,3 +6,43 @@ services:
       dockerfile: php.Dockerfile
     volumes:
       - ../:/var/www
+    depends_on:
+      - mysql
+  
+  mysql:
+    container_name: layered-pricing-mysql
+    build:
+      context: .
+      dockerfile: mysql.Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=app
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  phpmyadmin:
+    container_name: layered-pricing-phpmyadmin
+    build:
+      context: .
+      dockerfile: phpmyadmin.Dockerfile
+    ports:
+      - 9000:80
+    environment:
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+      - PMA_ARBITRARY=0
+      - MEMORY_LIMIT=1024M
+      - UPLOAD_LIMIT=1024M
+      - MAX_EXECUTION_TIME=0
+      - UPLOAD_LIMI= 6096K
+    depends_on:
+      - mysql
