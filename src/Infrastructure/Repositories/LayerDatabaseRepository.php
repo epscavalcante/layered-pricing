@@ -28,7 +28,7 @@ class LayerDatabaseRepository implements LayerRepository
             id: $row['id'],
             code: $row['code'],
             type: $row['type'],
-            parentId: $row['layer_id'],
+            parentId: $row['parent_id'],
             discountType: $row['discount_type'],
             discountValue: $row['discount_value'],
         );
@@ -48,7 +48,7 @@ class LayerDatabaseRepository implements LayerRepository
             id: $row['id'],
             code: $row['code'],
             type: $row['type'],
-            parentId: $row['layer_id'],
+            parentId: $row['parent_id'],
             discountType: $row['discount_type'],
             discountValue: $row['discount_value'],
         );
@@ -68,7 +68,7 @@ class LayerDatabaseRepository implements LayerRepository
             id: $row['id'],
             code: $row['code'],
             type: $row['type'],
-            parentId: $row['layer_id'],
+            parentId: $row['parent_id'],
             discountType: $row['discount_type'],
             discountValue: $row['discount_value'],
         );
@@ -76,13 +76,13 @@ class LayerDatabaseRepository implements LayerRepository
 
     public function save(Layer $layer): void
     {
-        $query = "INSERT INTO layers (id, code, type, layer_id, discount_value, discount_type) VALUES (:id, :code, :type, :layer_id, :discount_value, :discount_type)";
+        $query = "INSERT INTO layers (id, code, type, parent_id, discount_value, discount_type) VALUES (:id, :code, :type, :parent_id, :discount_value, :discount_type)";
         $stmt = $this->databaseConnection->prepare($query);
 
         $stmt->bindValue(':id', $layer->getId());
         $stmt->bindValue(':code', $layer->getCode());
         $stmt->bindValue(':type', $layer->getType());
-        $stmt->bindValue(':layer_id', $layer->getParentId());
+        $stmt->bindValue(':parent_id', $layer->getParentId());
         $stmt->bindValue(':discount_type', $layer->getDiscountType());
         $stmt->bindValue(':discount_value', $layer->getDiscountValue());
         $stmt->execute();

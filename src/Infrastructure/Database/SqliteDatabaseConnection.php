@@ -28,7 +28,6 @@ class SqliteDatabaseConnection implements DatabaseConnection
                     PDO::ATTR_EMULATE_PREPARES   => false,
                 ]
             );
-            $this->connection->exec(file_get_contents("/var/www/.docker/initsqlitedb.sql"));
         } catch (PDOException $e) {
             // Trate erro de conexão de forma adequada (log, retry, etc)
             throw new \RuntimeException('Database connection failed: ' . $e->getMessage());

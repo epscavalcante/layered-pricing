@@ -25,13 +25,13 @@ test('Deve salvar um produto', function () {
 
 test('Deve encontar um produto pelo ID', function () {
     $product = Product::create(
-        name: uniqid('Product ', true),
+        name: 'Produto Teste',
     );
     $this->repository->save($product);
-    $product = $this->repository->findById(ProductId::restore('01J8M5R6T9Q9H8X7L2E9ZP4K8C'));
+    $product = $this->repository->findById(ProductId::restore($product->getId()));
 
     expect($product)->toBeInstanceOf(Product::class);
-    expect($product->getName())->toBe('Produto A');
+    expect($product->getName())->toBe('Produto Teste');
 });
 
 

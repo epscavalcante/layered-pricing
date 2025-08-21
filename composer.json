@@ -20,7 +20,8 @@
     },
     "require": {
         "ramsey/identifier": "^0.1.0",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "robmorgan/phinx": "^0.16.10"
     },
     "require-dev": {
         "pestphp/pest": "^3.8",
@@ -34,6 +35,7 @@
     },
     "scripts": {
         "test": "./vendor/bin/pest",
-        "test:coverage": "./vendor/bin/pest --coverage"
+        "test:coverage": "./vendor/bin/pest --coverage",
+        "migrations": "./vendor/bin/phinx"
     }
 }

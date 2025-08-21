@@ -50,7 +50,7 @@ class PriceDatabaseRepository implements PriceRepository
                 id: $row['id'],
                 layerId: $row['layer_id'],
                 productId: $row['product_id'],
-                value: $row['value_cents'],
+                value: $row['value'],
             ),
             array: $rows
         );
@@ -75,14 +75,14 @@ class PriceDatabaseRepository implements PriceRepository
             id: $row['id'],
             layerId: $row['layer_id'],
             productId: $row['product_id'],
-            value: $row['value_cents'],
+            value: $row['value'],
         );
     }
 
     public function save(Price $price): void
     {
         $stmt = $this->databaseConnection->prepare(
-            'INSERT INTO prices (id, layer_id, product_id, value_cents)
+            'INSERT INTO prices (id, layer_id, product_id, value)
             VALUES (:price_id, :layer_id, :product_id, :value)'
         );
 

@@ -3,11 +3,11 @@
 use Src\Domain\Entities\Price;
 use Src\Domain\ValueObjects\LayerId;
 use Src\Domain\ValueObjects\ProductId;
-use Src\Infrastructure\Database\SqliteDatabaseConnection;
+use Src\Infrastructure\Database\MySqlDatabaseConnection;
 use Src\Infrastructure\Repositories\PriceDatabaseRepository;
 
 beforeEach(function () {
-    $sqliteConnection = new SqliteDatabaseConnection;
+    $sqliteConnection = new MySqlDatabaseConnection;
 
     /** @var ProductRepository */
     $this->repository = new PriceDatabaseRepository(

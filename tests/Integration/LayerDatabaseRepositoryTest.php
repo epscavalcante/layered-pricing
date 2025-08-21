@@ -4,15 +4,15 @@ use Src\Domain\Entities\Layer;
 use Src\Domain\Enums\DiscountType;
 use Src\Domain\Enums\LayerType;
 use Src\Domain\ValueObjects\LayerId;
-use Src\Infrastructure\Database\SqliteDatabaseConnection;
+use Src\Infrastructure\Database\MySqlDatabaseConnection;
 use Src\Infrastructure\Repositories\LayerDatabaseRepository;
 
 beforeEach(function () {
-    $sqliteConnection = new SqliteDatabaseConnection;
+    $databaseConnection = new MySqlDatabaseConnection;
 
     /** @var ProductRepository */
     $this->repository = new LayerDatabaseRepository(
-        databaseConnection: $sqliteConnection->getConnection()
+        databaseConnection: $databaseConnection->getConnection()
     );
 });
 
