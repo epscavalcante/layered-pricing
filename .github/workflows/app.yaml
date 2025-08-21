@@ -29,8 +29,5 @@ jobs:
       - name: Runs Testing Migrations
         run: composer migrations -- migrate -e testing
 
-      - name: Run Tests
-        run: composer test
-
-      #- name: Validate coverage
-      #  run: composer test:coverage -- --min=80
+      - name: Run Tests and Validate coverage
+        run: composer test:coverage -- --min=80
