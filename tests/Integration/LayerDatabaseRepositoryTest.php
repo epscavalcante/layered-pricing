@@ -6,8 +6,12 @@ use Src\Domain\Enums\LayerType;
 use Src\Domain\ValueObjects\LayerId;
 use Src\Infrastructure\Database\SqliteDatabaseConnection;
 use Src\Infrastructure\Repositories\LayerDatabaseRepository;
+use Tests\DatabaseMigrations;
+
+uses(DatabaseMigrations::class);
 
 beforeEach(function () {
+    $this->reset();
     $databaseConnection = new SqliteDatabaseConnection;
 
     /** @var ProductRepository */

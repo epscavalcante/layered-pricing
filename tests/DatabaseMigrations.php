@@ -2,11 +2,12 @@
 
 namespace Tests;
 
-class DatabaseMigrations
+trait DatabaseMigrations
 {
-    public static function migrate(): void
+    public function reset(): void
     {
-        exec('composer migrations migrate', $output, $exitCode);
+        echo "running migrations..." . PHP_EOL;
+        exec('composer migrations -- migrate -e testing', $output, $exitCode);
 
         if ($exitCode !== 0) {
             throw new \RuntimeException(

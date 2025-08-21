@@ -5,8 +5,12 @@ use Src\Domain\Repositories\ProductRepository;
 use Src\Domain\ValueObjects\ProductId;
 use Src\Infrastructure\Database\SqliteDatabaseConnection;
 use Src\Infrastructure\Repositories\ProductDatabaseRepository;
+use Tests\DatabaseMigrations;
+
+uses(DatabaseMigrations::class);
 
 beforeEach(function () {
+    $this->reset();
     $databaseConnection = new SqliteDatabaseConnection;
     /** @var ProductRepository */
     $this->repository = new ProductDatabaseRepository(

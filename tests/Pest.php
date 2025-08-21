@@ -2,12 +2,10 @@
 
 use Src\Infrastructure\Config\Config;
 use Tests\DatabaseMigrations;
+use Tests\TestCase;
 
 Config::load(dirname(__DIR__));
 
-uses(DatabaseMigrations::class)
-    ->beforeEach(fn () => DatabaseMigrations::migrate())
-    ->in('Integration');
+pest()->extend(TestCase::class);
 
-pest()->extend(Tests\TestCase::class)->in('Unit');
-
+uses(DatabaseMigrations::class)->in('Integration');
