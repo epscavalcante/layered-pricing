@@ -23,6 +23,7 @@ class Config
 
     public static function get(string $key, mixed $default = null): mixed
     {
+        dd(self::$config);
         return self::$config[$key] ?? $default;
     }
 }
