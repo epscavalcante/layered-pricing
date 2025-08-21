@@ -20,26 +20,35 @@ jobs:
           --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
           --health-interval=10s
           --health-timeout=5s
-          --health-retries=5
+          --health-retries=10
 
     steps:
+      # 1. Checkout do código
+      - uses: actions/checkout@v3
+
+      # 2. Setup PHP com extensões necessárias
       - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
         with:
           php-version: '8.4'
           extensions: pdo_mysql, mbstring
 
-      - uses: actions/checkout@v3
-
+      # 3. Instala dependências
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
+      # 4. Espera pelo MySQL estar pronto
       - name: Wait for MySQL
         run: |
-          until mysqladmin ping -h127.0.0.1 -uroot -proot --silent; do
-            echo "Waiting for database..."
+          for i in {30..0}; do
+            if mysql -h mysql -uroot -proot -e 'SELECT 1'; then
+              echo "MySQL is up"
+              break
+            fi
+            echo "Waiting for MySQL..."
             sleep 2
           done
 
+      # 5. Inicializa o banco (migrations ou SQL)
       - name: Run Migrations
         env:
           DB_HOST: mysql
@@ -49,7 +58,9 @@ jobs:
           DB_PASSWORD: root
         run: |
           composer migrations status
+          composer migrations migrate --no-interaction
 
+      # 6. Executa testes de unidade e integração
       - name: Run Tests
         env:
           DB_HOST: mysql
@@ -59,5 +70,6 @@ jobs:
           DB_PASS: root
         run: composer test
 
-      - name: Validate coverage
+      # 7. Valida cobertura mínima
+      - name: Validate Coverage
         run: composer test:coverage -- --min=80
