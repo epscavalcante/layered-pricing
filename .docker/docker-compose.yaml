@@ -1,6 +1,6 @@
 services:
-  app:
-    container_name: layered-pricing-app
+  php:
+    container_name: layered-pricing-php
     build:
       context: .
       dockerfile: php.Dockerfile
