@@ -3,25 +3,14 @@
 use Src\Application\UseCases\GetLayer\GetLayer;
 use Src\Application\UseCases\GetLayer\GetLayerInput;
 use Src\Application\UseCases\GetLayer\GetLayerOutput;
-use Src\Application\UseCases\GetPrice\GetPrice;
-use Src\Application\UseCases\GetPrice\GetPriceInput;
-use Src\Application\UseCases\GetPrice\GetPriceOutput;
 use Src\Domain\Entities\Layer;
-use Src\Domain\Entities\Price;
-use Src\Domain\Entities\Product;
 use Src\Domain\Enums\DiscountType;
 use Src\Domain\Enums\LayerType;
 use Src\Domain\Exceptions\LayerNotFoundException;
-use Src\Domain\Exceptions\PriceNotFoundException;
-use Src\Domain\Exceptions\ProductNotFoundException;
 use Src\Domain\Repositories\LayerRepository;
-use Src\Domain\Repositories\PriceRepository;
 use Src\Domain\ValueObjects\LayerId;
-use Src\Domain\ValueObjects\PriceId;
 use Src\Infrastructure\Database\SqliteDatabaseConnection;
 use Src\Infrastructure\Repositories\LayerDatabaseRepository;
-use Src\Infrastructure\Repositories\PriceDatabaseRepository;
-use Src\Infrastructure\Repositories\ProductDatabaseRepository;
 use Tests\DatabaseMigrations;
 
 uses(DatabaseMigrations::class);
@@ -29,16 +18,8 @@ uses(DatabaseMigrations::class);
 beforeEach(function () {
     $this->reset();
     $databaseConnection = new SqliteDatabaseConnection;
-    /** @var ProductRepository */
-    $this->productRepository = new ProductDatabaseRepository(
-        databaseConnection: $databaseConnection->getConnection()
-    );
     /** @var LayerRepository */
     $this->layerRepository = new LayerDatabaseRepository(
-        databaseConnection: $databaseConnection->getConnection()
-    );
-    /** @var PriceRepository */
-    $this->priceRepository = new PriceDatabaseRepository(
         databaseConnection: $databaseConnection->getConnection()
     );
 });
