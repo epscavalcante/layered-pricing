@@ -6,6 +6,7 @@ use PDO;
 use Src\Domain\Entities\Price;
 use Src\Domain\Repositories\PriceRepository;
 use Src\Domain\ValueObjects\LayerId;
+use Src\Domain\ValueObjects\PriceId;
 use Src\Domain\ValueObjects\ProductId;
 
 class PriceDatabaseRepository implements PriceRepository
@@ -65,6 +66,28 @@ class PriceDatabaseRepository implements PriceRepository
     {
         $stmt = $this->databaseConnection->prepare('SELECT * FROM prices WHERE layer_id = :layer_id AND product_id = :product_id LIMIT 1');
         $stmt->execute(['layer_id' => $layerId->getValue(), 'product_id' => $productId->getValue()]);
+        $row = $stmt->fetch();
+
+        if (!$row) {
+            return null;
+        }
+
+        return Price::restore(
+            id: $row['id'],
+            layerId: $row['layer_id'],
+            productId: $row['product_id'],
+            value: $row['value'],
+        );
+    }
+
+    /**
+     * @param PriceId $layerId
+     * @return ?Price
+     */
+    public function findById(PriceId $priceId): ?Price
+    {
+        $stmt = $this->databaseConnection->prepare('SELECT * FROM prices WHERE id = :price_id LIMIT 1');
+        $stmt->execute(['price_id' => $priceId->getValue()]);
         $row = $stmt->fetch();
 
         if (!$row) {

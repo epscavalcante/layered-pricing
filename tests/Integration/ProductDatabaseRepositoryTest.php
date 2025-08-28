@@ -38,7 +38,6 @@ test('Deve encontar um produto pelo ID', function () {
     expect($product->getName())->toBe('Produto Teste');
 });
 
-
 test('Deve retornar null quando não encontrar o produto pelo ID', function () {
     $product = $this->repository->findById(ProductId::create());
     expect($product)->toBeNull();

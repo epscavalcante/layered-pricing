@@ -6,6 +6,7 @@ namespace Src\Domain\Repositories;
 
 use Src\Domain\Entities\Price;
 use Src\Domain\ValueObjects\LayerId;
+use Src\Domain\ValueObjects\PriceId;
 use Src\Domain\ValueObjects\ProductId;
 
 interface PriceRepository
@@ -25,6 +26,8 @@ interface PriceRepository
      * @return ?Price
      */
     public function findByLayerIdAndProductId(LayerId $layerId, ProductId $productId): ?Price;
+
+    public function findById(PriceId $priceId): ?Price;
 
     public function save(Price $price): void;
 }
