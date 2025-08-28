@@ -25,7 +25,6 @@ return
             'adapter' => 'sqlite',
             'name' => './database',
             'suffix' => 'sqlite',
-            //'memory' => true,
         ],
     ],
     'version_order' => 'creation'
